@@ -1,26 +1,18 @@
 import Comments from "./Comments";
 import Reaction from "./Reaction";
 
-const DataCard = () => {
+const DataCard = ({ dataCard }) => {
   return (
     <div className="mt-0">
       <div
-        className="relative h-[500px] bg-cover bg-center sm:w-[350px] w-auto rounded-lg "
+        className="relative h-[500px] bg-cover bg-center sm:w-[350px] w-full rounded-lg "
         style={{
           borderColor: "white",
-          backgroundImage:
-            "url(" +
-            "https://news.microsoft.com/wp-content/uploads/prod/sites/61/2023/03/Halo-Infinite-Temporada-3_Echoes-Within-1.jpg" +
-            ")",
+          backgroundImage: "url(" + dataCard.image + ")",
         }}
       >
         <div className="bg-semi-trans text-white rounded-lg  flex items-center justify-center h-full">
-          <p className="w-3/4 text-center">
-            Sabías que el pulpo tiene tres corazones. Sí, has oído bien, ¡tres
-            corazones! Dos de los corazones se utilizan para bombear la sangre a
-            las branquias, y el tercer corazón bombea la sangre al resto del
-            cuerpo del pulpo
-          </p>
+          <p className="w-3/4 text-center">{dataCard.description}</p>
         </div>
         <div className="absolute bottom-0">
           <span>189</span>

@@ -95,7 +95,6 @@ const Reaction = () => {
       <OutsideClickHandler
         onOutsideClick={() => {
           visibleReacts && setVisibleReacts(false);
-          console.log("xd");
         }}
       >
         <div className="absolute -top-14">
@@ -127,6 +126,7 @@ const Reaction = () => {
         <button {...bind()} className="btn float-left flex flex-col">
           {btnIcon}
         </button>
+        <div>jahja</div>
       </OutsideClickHandler>
     </>
   );
