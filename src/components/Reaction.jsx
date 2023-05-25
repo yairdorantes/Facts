@@ -1,7 +1,10 @@
 import { useLongPress } from "use-long-press";
 import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
+import AuthContext from "./UserContext";
+import axios from "axios";
+import { api } from "../api";
 
 const reactIcons = [
   <svg
@@ -80,16 +83,34 @@ const variants = {
   }),
 };
 
-const Reaction = () => {
+const Reaction = ({ fact, reaction }) => {
   const [visibleReacts, setVisibleReacts] = useState(false);
-  const [btnIcon, setBtnIcon] = useState(reactIcons[0]);
-  const bind = useLongPress(() => {
-    setVisibleReacts(!visibleReacts);
-  });
+  const [btnIcon, setBtnIcon] = useState(reactIcons[reaction]);
+  const { user, setIsOpen } = useContext(AuthContext);
+  const bind = useLongPress(
+    () => {
+      setVisibleReacts(!visibleReacts);
+    },
+    {
+      onCancel: () => {
+        console.log("xd");
+        setBtnIcon(undefined);
+      },
+    }
+  );
   const handleIconClick = (key) => {
     setBtnIcon(reactIcons[key]);
     setVisibleReacts(false);
+    axios
+      .put(`${api}/user/${user}`, { post_id: fact.id, reaction: key })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
+
   return (
     <>
       <OutsideClickHandler
@@ -122,11 +143,28 @@ const Reaction = () => {
             )}
           </AnimatePresence>
         </div>
-
-        <button {...bind()} className="btn float-left flex flex-col">
-          {btnIcon}
-        </button>
-        <div>jahja</div>
+        {user && btnIcon ? (
+          <button {...bind()} className="btn flex flex-col">
+            {btnIcon}
+          </button>
+        ) : (
+          <button
+            onClick={() => !user && setIsOpen(true)}
+            {...bind()}
+            className="btn float-left flex flex-col"
+          >
+            <svg
+              key={1}
+              className="w-7 h-7 text-gray-300"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              height="1em"
+              width="1em"
+            >
+              <path d="M4 21h1V8H4a2 2 0 00-2 2v9a2 2 0 002 2zM20 8h-7l1.122-3.368A2 2 0 0012.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 00-2-2z" />
+            </svg>
+          </button>
+        )}
       </OutsideClickHandler>
     </>
   );
