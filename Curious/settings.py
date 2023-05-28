@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-&i$&@#=%i5qu5pg0k=j5c#(&1=i&f#d&csr%c&8sea_(e0cw^d
 DEBUG = True
 
 ALLOWED_HOSTS = ["facts-production.up.railway.app"]
-
+CSRF_TRUSTED_ORIGINS = ["https://facts-production.up.railway.app"]
 CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
@@ -77,10 +77,20 @@ WSGI_APPLICATION = "Curious.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
+#     }
+# }
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "railway",
+        "USER": "postgres",
+        "PASSWORD": "8pxvjyVCwz8CXmC3XHLp",
+        "HOST": "containers-us-west-57.railway.app",
+        "PORT": "5684",
     }
 }
 
