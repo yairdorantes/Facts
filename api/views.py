@@ -56,6 +56,7 @@ class CommentsView(View):
                 "description", "user__username"
             )
         )
+        comments.reverse()
         return JsonResponse({"comments": comments})
 
     def post(self, request, fact_id, username):
