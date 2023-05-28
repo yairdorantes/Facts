@@ -14,7 +14,7 @@ class Fact(models.Model):
 
 class UserModel(models.Model):
     username = models.CharField(max_length=50, verbose_name="Name")
-    likes = models.JSONField(verbose_name="Likes", default=[{}])
+    likes = models.JSONField(verbose_name="Likes", default={}, blank=True, null=True)
 
     # password = models.CharField(max_length=50, verbose_name="password")
     def __str__(self) -> str:

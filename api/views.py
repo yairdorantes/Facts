@@ -1,4 +1,5 @@
 import json
+from time import sleep
 
 # from time import sleep
 from django.http import HttpResponse, JsonResponse
@@ -49,6 +50,7 @@ class UserView(View):
 
 class CommentsView(View):
     def get(self, request, fact_id):
+        # sleep(1000)
         comments = list(
             Comment.objects.filter(fact_p=fact_id).values(
                 "description", "user__username"
