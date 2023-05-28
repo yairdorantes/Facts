@@ -3,7 +3,6 @@ import json
 # from time import sleep
 from django.http import HttpResponse, JsonResponse
 from django.views import View
-from pydantic import Json
 from .models import Fact, UserModel, Comment
 from django.forms.models import model_to_dict
 
