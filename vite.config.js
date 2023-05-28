@@ -7,10 +7,10 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
-      devOptions: {
-        enabled: true,
-        type: "module",
-      },
+      // devOptions: {
+      //   enabled: true,
+      //   type: "module",
+      // },
       registerType: "autoUpdate",
       manifest: {
         short_name: "Curiosos app",

@@ -1,9 +1,8 @@
 import { useLongPress } from "use-long-press";
 import { motion, AnimatePresence } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
-import OutsideClickHandler from "react-outside-click-handler";
-import onClickOutside from "react-onclickoutside";
-
+// import OutsideClickHandler from "react-outside-click-handler";
+// import onClickOutside from "react-onclickoutside";
 import AuthContext from "./UserContext";
 import axios from "axios";
 import { api } from "../api";
@@ -93,11 +92,8 @@ const Reaction = ({ fact, reaction }) => {
       setVisibleReacts(!visibleReacts);
     },
     {
-      onCancel: (e) => {
-        setBtnIcon(undefined);
-        // console.log(e.target.getAttribute("data-icon"));
-        const attr = e.target.getAttribute("data-icon");
-        if (attr === "no-icon") {
+      onCancel: () => {
+        if (!btnIcon) {
           sendReaction(fact.id, 0);
           setBtnIcon(reactIcons[0]);
           setTotalLikes(totalLikes + 1);
@@ -123,6 +119,7 @@ const Reaction = ({ fact, reaction }) => {
     }
   };
   const sendReaction = (fact_id, reaction_id) => {
+    // console.log(fact_id, reaction_id);
     axios
       .put(`${api}/user/${user}`, { post_id: fact_id, reaction: reaction_id })
       .then((res) => {
@@ -135,74 +132,64 @@ const Reaction = ({ fact, reaction }) => {
 
   return (
     <>
-      <OutsideClickHandler
+      {/* <OutsideClickHandler
         onOutsideClick={() => console.log("jaja from reaction xd")}
-      >
-        <div className="absolute  -top-14 left-1/2 -translate-x-1/2">
-          <AnimatePresence>
-            {visibleReacts && (
-              <div className="flex gap-4 bg-black  items-center p-2 rounded-3xl ">
-                {reactIcons.map((icon, key) => (
-                  <motion.div
-                    key={key}
-                    variants={variants}
-                    initial="hidden"
-                    animate="visible"
-                    custom={key + 1}
-                    //   exit={{ opacity: 0 }}
+      > */}
+      <div className="absolute -top-14 left-1/2 -translate-x-1/2">
+        <AnimatePresence>
+          {visibleReacts && (
+            <div className="flex gap-4 bg-black  items-center p-2 rounded-3xl ">
+              {reactIcons.map((icon, key) => (
+                <motion.div
+                  key={key}
+                  variants={variants}
+                  initial="hidden"
+                  animate="visible"
+                  custom={key + 1}
+                  //   exit={{ opacity: 0 }}
+                >
+                  <div
+                    className="cursor-pointer "
+                    onClick={() => handleIconClick(key)}
                   >
-                    <div
-                      className="cursor-pointer "
-                      onClick={() => handleIconClick(key)}
-                    >
-                      {icon}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        {user && btnIcon ? (
-          <div className="flex flex-col">
-            <button
-              {...bind()}
-              data-icon="icon"
-              className="btn btn-circle flex flex-col"
-            >
-              {btnIcon}
-            </button>
-            <div className="text-center font-bold text-sm ">{totalLikes}</div>
-          </div>
-        ) : (
-          <div className="">
-            <button
-              data-icon="no-icon"
-              onClick={() => !user && setIsOpen(true)}
-              {...bind()}
-              className="btn btn-circle float-left"
-            >
-              <svg
-                key={10}
-                className="w-7 h-7 text-gray-300"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                height="1em"
-                width="1em"
-              >
-                <path
-                  data-icon="no-icon"
-                  d="M4 21h1V8H4a2 2 0 00-2 2v9a2 2 0 002 2zM20 8h-7l1.122-3.368A2 2 0 0012.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 00-2-2z"
-                />
-              </svg>
-            </button>
-            <div className="text-center font-bold text-sm mt-1">
-              {totalLikes}
+                    {icon}
+                  </div>
+                </motion.div>
+              ))}
             </div>
-          </div>
-        )}
-      </OutsideClickHandler>
+          )}
+        </AnimatePresence>
+      </div>
+
+      {user && btnIcon ? (
+        <div className="flex flex-col">
+          <button {...bind()} className="btn btn-circle flex flex-col">
+            {btnIcon}
+          </button>
+          <div className="text-center font-bold text-sm ">{totalLikes}</div>
+        </div>
+      ) : (
+        <div className="">
+          <button
+            onClick={() => !user && setIsOpen(true)}
+            {...bind()}
+            className="btn btn-circle float-left"
+          >
+            <svg
+              key={1}
+              className="w-7 h-7 text-gray-300 "
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              height="1em"
+              width="1em"
+            >
+              <path d="M4 21h1V8H4a2 2 0 00-2 2v9a2 2 0 002 2zM20 8h-7l1.122-3.368A2 2 0 0012.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 00-2-2z" />
+            </svg>
+          </button>
+          <div className="text-center font-bold text-sm mt-1">{totalLikes}</div>
+        </div>
+      )}
+      {/* </OutsideClickHandler> */}
     </>
   );
 };
