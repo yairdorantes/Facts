@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import AuthContext from "./UserContext";
 import Modal from "react-modal";
 import OutsideClickHandler from "react-outside-click-handler";
@@ -22,7 +22,12 @@ const UserComp = () => {
 
   return (
     <Modal isOpen={isOpen} style={customStyles} ariaHideApp={false}>
-      <OutsideClickHandler onOutsideClick={() => setIsOpen(false)}>
+      <OutsideClickHandler
+        onOutsideClick={() => {
+          console.log("jajaj");
+          setIsOpen(false);
+        }}
+      >
         <h3 className="text-white mb-2 font-bold">Ingresa tu nickname: </h3>
         <input
           onChange={(e) => setUsername(e.target.value)}

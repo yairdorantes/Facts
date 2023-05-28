@@ -1,9 +1,25 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-.d {
-  background-color: rgba(0, 0, 0, 0.056);
-}
+
 body {
   margin: 0;
+}
+
+/* For WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 6px; /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-track {
+  background-color: #261414; /* Set the background color of the scrollbar track */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #122c26;
+  /* Set the color of the scrollbar thumb */
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Set the color of the scrollbar thumb on hover */
 }

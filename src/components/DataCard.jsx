@@ -3,9 +3,9 @@ import Reaction from "./Reaction";
 
 const DataCard = ({ dataCard, reaction }) => {
   return (
-    <div className="mt-0">
+    <div className="mt-0 h-screen">
       <div
-        className="relative h-[500px] bg-cover bg-center sm:w-[350px] w-full rounded-lg "
+        className="relative h-full bg-cover bg-center sm:w-[550px] sm:mx-auto w-full rounded-lg "
         style={{
           borderColor: "white",
           backgroundImage: "url(" + dataCard.image + ")",
@@ -16,9 +16,10 @@ const DataCard = ({ dataCard, reaction }) => {
         </div>
         <div className="absolute bottom-0"></div>
       </div>
-      <div className="relative flex gap-2 mt-1">
+      <div className="relative flex gap-2 -mt-20 justify-center">
         <Reaction fact={dataCard} reaction={reaction} />
-        <Comments />
+
+        <Comments fact={dataCard} />
       </div>
     </div>
   );

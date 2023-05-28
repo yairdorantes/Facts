@@ -8,11 +8,15 @@ import axios from "axios";
 import { api } from "./api";
 import UserComp from "./components/UserComp";
 import AuthContext from "./components/UserContext";
+import bg from "./media/wall3.jpg";
 
 function App() {
   const { user } = useContext(AuthContext);
   const [userData, setUserData] = useState([]);
-  // console.log(user);
+  const [fromWhere, setFromWhere] = useState(0);
+  const [initialStep] = useState(10);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [dataCards, setDataCards] = useState([]);
   const getUserData = () => {
     axios
       .get(`${api}/user/${user}`)
@@ -23,12 +27,11 @@ function App() {
         console.log(err);
       });
   };
-  const [dataCards, setDataCards] = useState([]);
-  const getFacts = () => {
+  const getFacts = (step) => {
     axios
-      .get(`${api}/facts/${3}`)
+      .get(`${api}/facts/${fromWhere}/${step}`)
       .then((res) => {
-        setDataCards(res.data.facts);
+        setDataCards((dataCards) => dataCards.concat(res.data.facts));
         console.log(res.data.facts);
       })
       .catch((err) => {
@@ -37,13 +40,23 @@ function App() {
   };
 
   useEffect(() => {
-    getFacts();
+    getFacts(initialStep);
     getUserData();
   }, []);
+  useEffect(() => {
+    setFromWhere(fromWhere + initialStep);
+    getFacts(fromWhere);
+  }, [activeIndex]);
 
   return (
     <>
-      <div className="bg-black ">
+      <div
+        className="min-h-screen bg-cover bg-center "
+        style={{
+          backgroundImage: `linear-gradient(rgba(4, 4, 4, 0.696), rgba(12, 12, 12, 0.77)), url(${bg})`,
+        }}
+      >
+        <div className="absolute inset-0 backdrop-filter backdrop-blur" />
         <Swiper
           direction={"vertical"}
           pagination={{
@@ -53,6 +66,10 @@ function App() {
           keyboard={true}
           modules={[Keyboard, Mousewheel]}
           mousewheel={true}
+          onActiveIndexChange={(e) => {
+            if ((e.activeIndex + 1) % initialStep === 0)
+              setActiveIndex(e.activeIndex + 1);
+          }}
         >
           {dataCards.map((dataCard, key) => (
             <SwiperSlide key={key}>

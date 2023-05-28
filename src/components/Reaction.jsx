@@ -1,11 +1,12 @@
 import { useLongPress } from "use-long-press";
 import { motion, AnimatePresence } from "framer-motion";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import OutsideClickHandler from "react-outside-click-handler";
+import onClickOutside from "react-onclickoutside";
+
 import AuthContext from "./UserContext";
 import axios from "axios";
 import { api } from "../api";
-
 const reactIcons = [
   <svg
     key={1}
@@ -82,29 +83,50 @@ const variants = {
     },
   }),
 };
-
 const Reaction = ({ fact, reaction }) => {
   const [visibleReacts, setVisibleReacts] = useState(false);
   const [btnIcon, setBtnIcon] = useState(reactIcons[reaction]);
+  const [totalLikes, setTotalLikes] = useState(fact.total_likes);
   const { user, setIsOpen } = useContext(AuthContext);
   const bind = useLongPress(
     () => {
       setVisibleReacts(!visibleReacts);
     },
     {
-      onCancel: () => {
-        console.log("xd");
+      onCancel: (e) => {
         setBtnIcon(undefined);
+        // console.log(e.target.getAttribute("data-icon"));
+        const attr = e.target.getAttribute("data-icon");
+        if (attr === "no-icon") {
+          sendReaction(fact.id, 0);
+          setBtnIcon(reactIcons[0]);
+          setTotalLikes(totalLikes + 1);
+        } else {
+          sendReaction(fact.id, -1);
+          setBtnIcon(undefined);
+
+          setTotalLikes(totalLikes - 1);
+        }
       },
     }
   );
+  useEffect(() => {
+    setBtnIcon(reactIcons[reaction]);
+  }, [reaction]);
+
   const handleIconClick = (key) => {
     setBtnIcon(reactIcons[key]);
     setVisibleReacts(false);
+    if (!btnIcon) {
+      setTotalLikes(totalLikes + 1);
+      sendReaction(fact.id, key);
+    }
+  };
+  const sendReaction = (fact_id, reaction_id) => {
     axios
-      .put(`${api}/user/${user}`, { post_id: fact.id, reaction: key })
+      .put(`${api}/user/${user}`, { post_id: fact_id, reaction: reaction_id })
       .then((res) => {
-        console.log(res);
+        // console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -114,14 +136,12 @@ const Reaction = ({ fact, reaction }) => {
   return (
     <>
       <OutsideClickHandler
-        onOutsideClick={() => {
-          visibleReacts && setVisibleReacts(false);
-        }}
+        onOutsideClick={() => console.log("jaja from reaction xd")}
       >
-        <div className="absolute -top-14">
+        <div className="absolute  -top-14 left-1/2 -translate-x-1/2">
           <AnimatePresence>
             {visibleReacts && (
-              <div className="flex gap-4 bg-black items-center p-2 rounded-3xl ">
+              <div className="flex gap-4 bg-black  items-center p-2 rounded-3xl ">
                 {reactIcons.map((icon, key) => (
                   <motion.div
                     key={key}
@@ -143,27 +163,44 @@ const Reaction = ({ fact, reaction }) => {
             )}
           </AnimatePresence>
         </div>
+
         {user && btnIcon ? (
-          <button {...bind()} className="btn flex flex-col">
-            {btnIcon}
-          </button>
-        ) : (
-          <button
-            onClick={() => !user && setIsOpen(true)}
-            {...bind()}
-            className="btn float-left flex flex-col"
-          >
-            <svg
-              key={1}
-              className="w-7 h-7 text-gray-300"
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              height="1em"
-              width="1em"
+          <div className="flex flex-col">
+            <button
+              {...bind()}
+              data-icon="icon"
+              className="btn btn-circle flex flex-col"
             >
-              <path d="M4 21h1V8H4a2 2 0 00-2 2v9a2 2 0 002 2zM20 8h-7l1.122-3.368A2 2 0 0012.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 00-2-2z" />
-            </svg>
-          </button>
+              {btnIcon}
+            </button>
+            <div className="text-center font-bold text-sm ">{totalLikes}</div>
+          </div>
+        ) : (
+          <div className="">
+            <button
+              data-icon="no-icon"
+              onClick={() => !user && setIsOpen(true)}
+              {...bind()}
+              className="btn btn-circle float-left"
+            >
+              <svg
+                key={10}
+                className="w-7 h-7 text-gray-300"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                height="1em"
+                width="1em"
+              >
+                <path
+                  data-icon="no-icon"
+                  d="M4 21h1V8H4a2 2 0 00-2 2v9a2 2 0 002 2zM20 8h-7l1.122-3.368A2 2 0 0012.225 2H12L7 7.438V21h11l3.912-8.596L22 12v-2a2 2 0 00-2-2z"
+                />
+              </svg>
+            </button>
+            <div className="text-center font-bold text-sm mt-1">
+              {totalLikes}
+            </div>
+          </div>
         )}
       </OutsideClickHandler>
     </>
