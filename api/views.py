@@ -38,8 +38,9 @@ class UserView(View):
             fact.total_likes += 1
             fact.save()
         elif reaction == -1:
-            fact.total_likes -= 1
-            fact.save()
+            if fact.total_likes > 0:
+                fact.total_likes -= 1
+                fact.save()
         user_data.likes[post_id] = reaction
         user_data.save()
         print(reaction)
