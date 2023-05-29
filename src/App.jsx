@@ -57,6 +57,7 @@ function App() {
         }}
       >
         <div className="absolute inset-0 backdrop-filter backdrop-blur" />
+
         <Swiper
           direction={"vertical"}
           pagination={{

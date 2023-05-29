@@ -1,8 +1,6 @@
 import { useLongPress } from "use-long-press";
 import { motion, AnimatePresence } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
-// import OutsideClickHandler from "react-outside-click-handler";
-// import onClickOutside from "react-onclickoutside";
 import AuthContext from "./UserContext";
 import axios from "axios";
 import { api } from "../api";
@@ -78,7 +76,7 @@ const variants = {
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.1,
+      delay: i * 0.07,
     },
   }),
 };
@@ -132,13 +130,10 @@ const Reaction = ({ fact, reaction }) => {
 
   return (
     <>
-      {/* <OutsideClickHandler
-        onOutsideClick={() => console.log("jaja from reaction xd")}
-      > */}
       <div className="absolute -top-14 left-1/2 -translate-x-1/2">
         <AnimatePresence>
           {visibleReacts && (
-            <div className="flex gap-4 bg-black  items-center p-2 rounded-3xl ">
+            <div className="flex gap-4 bg-gray-800 bg-opacity-50  items-center p-2 rounded-3xl ">
               {reactIcons.map((icon, key) => (
                 <motion.div
                   key={key}
@@ -189,7 +184,6 @@ const Reaction = ({ fact, reaction }) => {
           <div className="text-center font-bold text-sm mt-1">{totalLikes}</div>
         </div>
       )}
-      {/* </OutsideClickHandler> */}
     </>
   );
 };
