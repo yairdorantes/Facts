@@ -44,7 +44,7 @@ class UserView(View):
                 fact.save()
         user_data.likes[post_id] = reaction
         user_data.save()
-        print(reaction)
+        # print(reaction)
         return HttpResponse("ok", status=200)
 
 
