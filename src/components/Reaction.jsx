@@ -128,6 +128,10 @@ const Reaction = ({ fact, reaction }) => {
       });
   };
 
+  useEffect(() => {
+    console.log("xd");
+  }, []);
+
   return (
     <>
       <div className="absolute -top-14 left-1/2 -translate-x-1/2">

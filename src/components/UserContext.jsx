@@ -4,6 +4,7 @@ import { api } from "../api";
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
+  // const [reactionsActive, setReactionsActive] = useState(false);
   let [user, setUser] = useState(() => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? storedUser : null;
@@ -38,6 +39,8 @@ export const AuthProvider = ({ children }) => {
     isOpen,
     logoutUser,
     setIsOpen,
+    // reactionsActive,
+    // setReactionsActive,
     // isOpenAuth,
   };
   return (
