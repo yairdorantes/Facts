@@ -42,7 +42,7 @@ const CommentsSec = ({ isVisible, setIsvisible, fact }) => {
 
   const sendComment = (e) => {
     e.preventDefault();
-    if (commentContent.length > 0 && commentContent.length < 777) {
+    if (commentContent.length > 0 && commentContent.length < 350) {
       setComms([
         { description: commentContent, user__username: user },
         ...comms,

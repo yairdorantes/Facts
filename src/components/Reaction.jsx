@@ -119,7 +119,7 @@ const Reaction = ({ fact, reaction }) => {
     }
   };
   const sendReaction = (fact_id, reaction_id) => {
-    // console.log(fact_id, reaction_id);
+    console.log(fact_id, reaction_id);
     axios
       .put(`${api}/user/${user}`, { post_id: fact_id, reaction: reaction_id })
       .then((res) => {
@@ -163,7 +163,7 @@ const Reaction = ({ fact, reaction }) => {
 
       {user && btnIcon ? (
         <div className="flex flex-col">
-          <button {...bind()} className="btn btn-circle flex flex-col">
+          <button {...bind()} className="btn  btn-circle flex flex-col">
             {btnIcon}
           </button>
           <div className="text-center font-bold text-sm ">{totalLikes}</div>

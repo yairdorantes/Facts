@@ -13,6 +13,10 @@ const Comments = ({ fact }) => {
         onClick={() => {
           user ? setIsVisible(!isVisible) : setIsOpen(true);
         }}
+        onTouchStart={(event) => {
+          event.preventDefault();
+          user ? setIsVisible(!isVisible) : setIsOpen(true);
+        }}
       >
         <svg
           className="w-7 h-7 text-white"
