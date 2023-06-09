@@ -113,21 +113,26 @@ const Reaction = ({ fact, reaction }) => {
     setVisibleReacts(false);
     if (!btnIcon) {
       setTotalLikes(totalLikes + 1);
-      sendReaction(fact.id, key);
     }
+    sendReaction(fact.id, key);
   };
+  // ,
   const sendReaction = (fact_id, reaction_id) => {
-    console.log(fact_id, reaction_id);
+    // console.log(fact_id, reaction_id);
+    console.log(`${api}/user/${user}`);
+    console.log(user);
     axios
       .put(`${api}/user/${user}`, { post_id: fact_id, reaction: reaction_id })
       .then((res) => {
-        // console.log(res);
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
+      })
+      .finally(() => {
+        console.log("kajaja");
       });
   };
-
   useEffect(() => {
     console.log("xd");
   }, []);

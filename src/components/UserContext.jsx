@@ -9,7 +9,6 @@ export const AuthProvider = ({ children }) => {
     const storedUser = localStorage.getItem("user");
     return storedUser ? storedUser : null;
   });
-
   const loginUser = (username) => {
     if (username.length > 0 && username.length < 10) {
       axios

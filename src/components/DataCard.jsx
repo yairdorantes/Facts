@@ -12,7 +12,7 @@ const DataCard = ({ dataCard, reaction }) => {
         }}
       >
         <div className="bg-semi-trans text-white rounded-lg  flex items-center justify-center h-full">
-          <p className="w-3/4 text-center">{dataCard.description}</p>
+          <p className="w-3/4 text-center text-lg">{dataCard.description}</p>
         </div>
         <div className="absolute bottom-0"></div>
       </div>
